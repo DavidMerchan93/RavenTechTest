@@ -21,3 +21,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "RavenTechTest"
 include(":app")
+include(":feature")
+include(":feature:home")
+include(":feature:articleDetail")
+include(":network")
+include(":database")
+include(":core")
+include(":designSystem")

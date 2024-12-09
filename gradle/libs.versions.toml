@@ -15,6 +15,8 @@ kotlinxSerialization = "1.7.0"
 navigation-compose = "2.8.4"
 kotlinxCollectionsImmutable = "0.3.8"
 runtimeAndroid = "1.7.2"
+hiltAndroid = "2.52"
+detekt = "1.23.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,4 +47,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+android-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroid" }

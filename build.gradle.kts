@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.detekt)
     alias(libs.plugins.android.hilt) apply false
+    id("com.google.devtools.ksp") version "2.0.21-1.0.27" apply false
 }
 
 allprojects {

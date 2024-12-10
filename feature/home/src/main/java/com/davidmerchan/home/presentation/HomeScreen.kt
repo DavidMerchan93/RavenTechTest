@@ -1,32 +1,52 @@
 package com.davidmerchan.home.presentation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.davidmerchan.designsystem.components.ErrorScreen
+import com.davidmerchan.designsystem.components.LoadingScreen
 import com.davidmerchan.home.presentation.components.ArticlesContent
-import kotlinx.collections.immutable.immutableListOf
+import com.davidmerchan.home.presentation.viewModel.ArticlesViewModel
+import kotlinx.collections.immutable.toImmutableList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, goToDetail: () -> Unit) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    viewmodel: ArticlesViewModel = hiltViewModel(),
+    goToDetail: () -> Unit
+) {
+
+    val uiState by viewmodel.uiState.collectAsStateWithLifecycle()
+
     Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = { TopAppBar(title = { Text(text = "Home") }) }
-    ) {
-        ArticlesContent(
-            modifier = Modifier.padding(it),
-            articles = immutableListOf(),
-            onDeleteArticle = {},
-            onGoToDetail = { _, _ -> }
-        )
+        modifier = modifier.fillMaxSize()
+    ) { contentPadding ->
+        when {
+            uiState.isLoading -> {
+                LoadingScreen()
+            }
+
+            uiState.articles.isNotEmpty() -> {
+                ArticlesContent(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(contentPadding),
+                    articles = uiState.articles.toImmutableList(),
+                    onDeleteArticle = {},
+                    onGoToDetail = { _, _ ->
+                        goToDetail()
+                    }
+                )
+            }
+
+            uiState.isError -> {
+                ErrorScreen()
+            }
+        }
     }
 }

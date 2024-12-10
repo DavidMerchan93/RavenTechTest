@@ -10,7 +10,9 @@ import androidx.navigation.compose.rememberNavController
 import com.davidmerchan.designsystem.RavenTechTestTheme
 import com.davidmerchan.detail.presentation.ArticleDetailScreen
 import com.davidmerchan.home.presentation.HomeScreen
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

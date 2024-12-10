@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
 
-    private const val BASE_URL = "http://hn.algolia.com/api/v1/"
+    private const val BASE_URL = "https://hn.algolia.com/api/v1/"
     private const val CONNECTION_TIMEOUT = 15L
 
     private val interceptLogger = HttpLoggingInterceptor().apply {

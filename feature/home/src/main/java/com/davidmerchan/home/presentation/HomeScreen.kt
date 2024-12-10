@@ -4,7 +4,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -22,6 +24,7 @@ import com.davidmerchan.home.presentation.components.ArticlesContent
 import com.davidmerchan.home.presentation.viewModel.ArticlesViewModel
 import kotlinx.collections.immutable.toImmutableList
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -39,33 +42,42 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier.fillMaxSize()
     ) { contentPadding ->
-        Column(
+
+        PullToRefreshBox(
             modifier = Modifier.padding(contentPadding),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            isRefreshing = uiState.isRefreshing,
+            onRefresh = { viewmodel.handleEvents(HomeUIEvents.LoadArticles) }
         ) {
-            if (isConnected.not()) {
-                ConnectionMessage()
-            }
-            when {
-                uiState.isLoading -> {
-                    LoadingScreen()
+            Column(
+                modifier = Modifier.padding(contentPadding),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                if (isConnected.not()) {
+                    ConnectionMessage()
                 }
+                when {
+                    uiState.isLoading -> {
+                        LoadingScreen()
+                    }
 
-                uiState.articles.isNotEmpty() -> {
-                    ArticlesContent(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        articles = uiState.articles.toImmutableList(),
-                        onDeleteArticle = {},
-                        onGoToDetail = { title, url ->
-                            goToDetail(title, url)
-                        }
-                    )
-                }
+                    uiState.articles.isNotEmpty() -> {
+                        ArticlesContent(
+                            modifier = Modifier
+                                .fillMaxSize(),
+                            articles = uiState.articles.toImmutableList(),
+                            onDeleteArticle = {
 
-                uiState.isError -> {
-                    ErrorScreen()
+                            },
+                            onGoToDetail = { title, url ->
+                                goToDetail(title, url)
+                            }
+                        )
+                    }
+
+                    uiState.isError -> {
+                        ErrorScreen()
+                    }
                 }
             }
         }

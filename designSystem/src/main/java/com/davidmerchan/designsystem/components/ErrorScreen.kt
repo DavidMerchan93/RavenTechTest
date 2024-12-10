@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.davidmerchan.designsystem.R
-import com.davidmerchan.designsystem.RavenTechTestTheme
+import com.davidmerchan.designsystem.theme.RavenTechTestTheme
 
 @Composable
 fun ErrorScreen(modifier: Modifier = Modifier, error: String? = null) {

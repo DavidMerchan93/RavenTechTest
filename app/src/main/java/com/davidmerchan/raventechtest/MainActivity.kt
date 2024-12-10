@@ -7,7 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.davidmerchan.designsystem.RavenTechTestTheme
+import androidx.navigation.toRoute
+import com.davidmerchan.designsystem.theme.RavenTechTestTheme
 import com.davidmerchan.detail.presentation.ArticleDetailScreen
 import com.davidmerchan.home.presentation.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,13 +25,20 @@ class MainActivity : ComponentActivity() {
                 NavHost(navController = navController, startDestination = Screens.Home) {
                     composable<Screens.Home> {
                         HomeScreen(
-                            goToDetail = {
-                                navController.navigate(Screens.Detail(articleId = 1))
+                            goToDetail = { title, url ->
+                                navController.navigate(Screens.Detail(title, url))
                             }
                         )
                     }
                     composable<Screens.Detail> {
-                        ArticleDetailScreen()
+                        val arg = it.toRoute<Screens.Detail>()
+                        ArticleDetailScreen(
+                            title = arg.title,
+                            url = arg.url,
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
                     }
                 }
             }

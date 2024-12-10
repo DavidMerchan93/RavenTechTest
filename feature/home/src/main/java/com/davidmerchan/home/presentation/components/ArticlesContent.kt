@@ -14,7 +14,7 @@ fun ArticlesContent(
     articles: ImmutableList<ArticleModel>,
     onDeleteArticle: (id: ArticleId) -> Unit,
     modifier: Modifier = Modifier,
-    onGoToDetail: (id: ArticleId, url: String) -> Unit
+    onGoToDetail: (title: String, url: String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -32,7 +32,7 @@ fun ArticlesContent(
                 ArticleItem(
                     article = article,
                     onShowDetail = {
-                        onGoToDetail(article.id, article.storyUrl)
+                        onGoToDetail(article.title, article.storyUrl)
                     },
                 )
             }

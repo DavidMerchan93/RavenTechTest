@@ -18,7 +18,7 @@ import kotlinx.collections.immutable.toImmutableList
 fun HomeScreen(
     modifier: Modifier = Modifier,
     viewmodel: ArticlesViewModel = hiltViewModel(),
-    goToDetail: () -> Unit
+    goToDetail: (title: String, url: String) -> Unit
 ) {
 
     val uiState by viewmodel.uiState.collectAsStateWithLifecycle()
@@ -38,8 +38,8 @@ fun HomeScreen(
                         .padding(contentPadding),
                     articles = uiState.articles.toImmutableList(),
                     onDeleteArticle = {},
-                    onGoToDetail = { _, _ ->
-                        goToDetail()
+                    onGoToDetail = { title, url ->
+                        goToDetail(title, url)
                     }
                 )
             }

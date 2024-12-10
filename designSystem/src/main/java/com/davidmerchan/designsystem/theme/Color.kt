@@ -1,4 +1,4 @@
-package com.davidmerchan.designsystem
+package com.davidmerchan.designsystem.theme
 
 import androidx.compose.ui.graphics.Color
 

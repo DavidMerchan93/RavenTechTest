@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.davidmerchan.designsystem.R
-import com.davidmerchan.designsystem.RavenTechTestTheme
+import com.davidmerchan.designsystem.theme.RavenTechTestTheme
 
 @Composable
 fun ConnectionMessage(modifier: Modifier = Modifier) {

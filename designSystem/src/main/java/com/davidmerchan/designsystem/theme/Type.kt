@@ -1,9 +1,10 @@
-package com.davidmerchan.designsystem
+package com.davidmerchan.designsystem.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.googlefonts.Font
 import androidx.compose.ui.text.googlefonts.GoogleFont
+import com.davidmerchan.designsystem.R
 
 val provider = GoogleFont.Provider(
     providerAuthority = "com.google.android.gms.fonts",

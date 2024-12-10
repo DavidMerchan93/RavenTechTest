@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.davidmerchan.designsystem.RavenTechTestTheme
+import com.davidmerchan.designsystem.theme.RavenTechTestTheme
 import com.davidmerchan.home.domain.model.ArticleModel
 
 @Composable

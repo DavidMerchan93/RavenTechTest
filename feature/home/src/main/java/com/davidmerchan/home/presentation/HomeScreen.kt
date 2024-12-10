@@ -66,8 +66,8 @@ fun HomeScreen(
                             modifier = Modifier
                                 .fillMaxSize(),
                             articles = uiState.articles.toImmutableList(),
-                            onDeleteArticle = {
-
+                            onDeleteArticle = { id ->
+                                viewmodel.handleEvents(HomeUIEvents.DeleteArticle(id))
                             },
                             onGoToDetail = { title, url ->
                                 goToDetail(title, url)

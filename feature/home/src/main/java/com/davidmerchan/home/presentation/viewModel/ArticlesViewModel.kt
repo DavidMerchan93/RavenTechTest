@@ -2,6 +2,8 @@ package com.davidmerchan.home.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.davidmerchan.home.domain.model.ArticleId
+import com.davidmerchan.home.domain.useCase.DeleteArticleUseCase
 import com.davidmerchan.home.domain.useCase.GetArticlesUseCase
 import com.davidmerchan.home.presentation.HomeUIEvents
 import com.davidmerchan.home.presentation.HomeUIState
@@ -15,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ArticlesViewModel @Inject constructor(
-    private val getArticlesUseCase: GetArticlesUseCase
+    private val getArticlesUseCase: GetArticlesUseCase,
+    private val deleteArticleUseCase: DeleteArticleUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUIState(isLoading = true))
@@ -28,7 +31,7 @@ class ArticlesViewModel @Inject constructor(
     fun handleEvents(event: HomeUIEvents) {
         when (event) {
             HomeUIEvents.LoadArticles -> onPullToRefreshArticles()
-            is HomeUIEvents.DeleteArticle -> TODO()
+            is HomeUIEvents.DeleteArticle -> deleteArticle(event.id)
             is HomeUIEvents.RestoreArticle -> TODO()
         }
     }
@@ -55,5 +58,24 @@ class ArticlesViewModel @Inject constructor(
             }
         }
     }
+
+    private fun deleteArticle(id: ArticleId) {
+        viewModelScope.launch {
+            val result = deleteArticleUseCase(id)
+            when {
+                result.isSuccess -> {
+                    _uiState.update {
+                        HomeUIState(
+                            articles = it.articles.filterNot { article -> article.id == id },
+                            successDeleted = id
+                        )
+                    }
+                }
+
+                result.isFailure -> HomeUIState(errorDeleted = id)
+            }
+        }
+    }
+
 
 }

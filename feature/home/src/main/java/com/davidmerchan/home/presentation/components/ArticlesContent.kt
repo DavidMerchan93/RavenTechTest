@@ -5,8 +5,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.davidmerchan.designsystem.components.SwipeToDeleteBox
-import com.davidmerchan.home.domain.ArticleId
-import com.davidmerchan.home.domain.ArticleModel
+import com.davidmerchan.home.domain.model.ArticleId
+import com.davidmerchan.home.domain.model.ArticleModel
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable

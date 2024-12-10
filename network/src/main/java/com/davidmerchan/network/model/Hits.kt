@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Hits(
     @SerializedName("story_id")
-    val storyId: Int,
+    val storyId: Long,
     @SerializedName("story_title")
     val storyTitle: String?,
     @SerializedName("story_url")

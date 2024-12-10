@@ -1,4 +1,4 @@
-package com.davidmerchan.home.domain
+package com.davidmerchan.home.domain.model
 
 typealias ArticleId = Long
 
@@ -7,7 +7,7 @@ data class ArticleModel(
     val title: String,
     val content: String,
     val author: String,
-    val createdDate: String,
+    val createdAt: String,
     val storyUrl: String,
     val isDeleted: Boolean = false
 )

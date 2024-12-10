@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.davidmerchan.designsystem.RavenTechTestTheme
-import com.davidmerchan.home.domain.ArticleModel
+import com.davidmerchan.home.domain.model.ArticleModel
 
 @Composable
 fun ArticleItem(
@@ -52,7 +52,7 @@ fun ArticleItem(
                 fontSize = 16.sp
             )
             Text(
-                text = article.createdDate,
+                text = article.createdAt,
                 color = MaterialTheme.colorScheme.tertiary,
                 fontSize = 14.sp
             )
@@ -72,7 +72,7 @@ private fun ArticleItemPreview() {
                 title = "Sample Article",
                 content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in turpis vel metus convallis dignissim. Sed auctor, ex vel gravida pulvinar, justo felis cursus turpis, vel consectetur neque ipsum eu justo.",
                 author = "John Doe",
-                createdDate = "2022-01-01",
+                createdAt = "2022-01-01",
                 storyUrl = "https://example.com/sample-article"
             ),
             onShowDetail = {

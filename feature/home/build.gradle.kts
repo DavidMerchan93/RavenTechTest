@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -36,6 +37,7 @@ android {
 dependencies {
 
     implementation(project(":designSystem"))
+    implementation(project(":network"))
 
     // Core
     implementation(libs.androidx.core.ktx)
@@ -50,4 +52,8 @@ dependencies {
     implementation(libs.androidx.runtime.android)
 
     debugImplementation(libs.androidx.ui.tooling)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }

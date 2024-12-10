@@ -38,6 +38,9 @@ dependencies {
 
     implementation(project(":designSystem"))
     implementation(project(":network"))
+    implementation(project(":database"))
+    implementation(project(":di"))
+    implementation(project(":core"))
 
     // Core
     implementation(libs.androidx.core.ktx)

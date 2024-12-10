@@ -1,5 +1,6 @@
 package com.davidmerchan.home.di
 
+import com.davidmerchan.database.dao.ArticleDao
 import com.davidmerchan.home.data.repository.ArticlesLocalDatasource
 import com.davidmerchan.home.data.repository.ArticlesRemoteDatasource
 import com.davidmerchan.home.domain.repository.ArticlesLocalRepository
@@ -23,6 +24,8 @@ object DataModule {
 
     @Provides
     @Singleton
-    fun provideArticlesLocalRepository(): ArticlesLocalRepository = ArticlesLocalDatasource()
+    fun provideArticlesLocalRepository(
+        articleDao: ArticleDao
+    ): ArticlesLocalRepository = ArticlesLocalDatasource(articleDao)
 
 }

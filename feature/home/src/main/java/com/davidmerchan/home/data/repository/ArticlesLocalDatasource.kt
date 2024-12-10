@@ -29,23 +29,27 @@ class ArticlesLocalDatasource @Inject constructor(
         }
     }
 
-    override suspend fun saveArticles(articleModel: List<ArticleModel>) {
-        withContext(ioDispatcher) {
+    override suspend fun saveArticles(articleModel: List<ArticleModel>): Result<Unit> {
+        return withContext(ioDispatcher) {
             try {
                 val data = articleModel.map { it.toEntity() }.toTypedArray()
                 articlesDao.insertArticles(*data)
+                Result.success(Unit)
             } catch (e: Exception) {
                 logger.log(e)
+                Result.failure(e)
             }
         }
     }
 
-    override suspend fun deleteArticle(id: ArticleId) {
-        withContext(ioDispatcher) {
+    override suspend fun deleteArticle(id: ArticleId): Result<Unit> {
+        return withContext(ioDispatcher) {
             try {
                 articlesDao.deleteArticle(id)
+                Result.success(Unit)
             } catch (e: Exception) {
                 logger.log(e)
+                Result.failure(e)
             }
         }
     }

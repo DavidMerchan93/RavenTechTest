@@ -13,19 +13,11 @@ class GetArticlesUseCase @Inject constructor(
     suspend operator fun invoke(): Result<List<ArticleModel>> {
         val responseRemote = articlesRemote.getArticles()
 
-        return Result.success(orderArticlesByDate(responseRemote.getOrNull() ?: emptyList()))
-        /*if (responseRemote.isSuccess) {
+        if (responseRemote.isSuccess) {
             val remoteArticles: List<ArticleModel> = responseRemote.getOrNull() ?: emptyList()
             saveArticlesUseCase(remoteArticles)
-            return responseRemote
         }
 
-        return getLocalArticlesUseCase()*/
-    }
-
-    private fun orderArticlesByDate(articles: List<ArticleModel>): List<ArticleModel> {
-        return articles.filter { it.isDeleted.not() }
-            .sortedByDescending { it.createdAt }
-            .distinctBy { it.id }
+        return getLocalArticlesUseCase()
     }
 }

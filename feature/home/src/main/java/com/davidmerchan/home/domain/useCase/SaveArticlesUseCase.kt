@@ -7,7 +7,6 @@ import javax.inject.Inject
 class SaveArticlesUseCase @Inject constructor(
     private val articlesRepository: ArticlesLocalRepository
 ) {
-    suspend operator fun invoke(articles: List<ArticleModel>) {
+    suspend operator fun invoke(articles: List<ArticleModel>) =
         articlesRepository.saveArticles(articles)
-    }
 }

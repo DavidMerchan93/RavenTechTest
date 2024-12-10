@@ -5,7 +5,7 @@ import com.davidmerchan.home.domain.model.ArticleModel
 
 interface ArticlesLocalRepository {
     suspend fun getAllArticles(): Result<List<ArticleModel>>
-    suspend fun saveArticles(articleModel: List<ArticleModel>)
-    suspend fun deleteArticle(id: ArticleId)
+    suspend fun saveArticles(articleModel: List<ArticleModel>): Result<Unit>
+    suspend fun deleteArticle(id: ArticleId): Result<Unit>
     suspend fun restoreArticle(id: ArticleId): Result<ArticleModel>
 }

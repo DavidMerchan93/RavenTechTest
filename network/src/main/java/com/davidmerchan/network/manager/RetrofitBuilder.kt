@@ -1,5 +1,6 @@
 package com.davidmerchan.network.manager
 
+import com.davidmerchan.network.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,7 +9,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitBuilder {
 
-    private const val BASE_URL = "https://hn.algolia.com/api/v1/"
+    private const val BASE_URL = BuildConfig.BASE_URL
     private const val CONNECTION_TIMEOUT = 15L
 
     private val interceptLogger = HttpLoggingInterceptor().apply {

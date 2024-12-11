@@ -75,7 +75,7 @@ private fun ArticleItemPreview() {
             article = ArticleModel(
                 id = 1,
                 title = "Sample Article",
-                content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed in turpis vel metus convallis dignissim. Sed auctor, ex vel gravida pulvinar, justo felis cursus turpis, vel consectetur neque ipsum eu justo.",
+                content = "Lorem ipsum",
                 author = "John Doe",
                 createdAt = "2022-01-01",
                 storyUrl = "https://example.com/sample-article"

@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("TooGenericExceptionCaught")
 class ArticlesRemoteDatasource @Inject constructor(
     private val logger: AppLogger,
     private val api: ArticlesApi,

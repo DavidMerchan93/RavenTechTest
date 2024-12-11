@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("TooGenericExceptionCaught")
 class ArticlesLocalDatasource @Inject constructor(
     private val logger: AppLogger,
     private val articlesDao: ArticleDao,
@@ -29,6 +30,7 @@ class ArticlesLocalDatasource @Inject constructor(
         }
     }
 
+    @Suppress("SpreadOperator")
     override suspend fun saveArticles(articleModel: List<ArticleModel>): Result<Unit> {
         return withContext(ioDispatcher) {
             try {

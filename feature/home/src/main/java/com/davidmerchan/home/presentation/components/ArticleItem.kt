@@ -1,5 +1,6 @@
 package com.davidmerchan.home.presentation.components
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -13,10 +14,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.davidmerchan.core.date.DateFormatter
 import com.davidmerchan.designsystem.theme.RavenTechTestTheme
 import com.davidmerchan.home.domain.model.ArticleModel
 
@@ -26,6 +29,8 @@ fun ArticleItem(
     modifier: Modifier = Modifier,
     onShowDetail: () -> Unit,
 ) {
+    val context = LocalContext.current
+
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -52,7 +57,7 @@ fun ArticleItem(
                 fontSize = 16.sp
             )
             Text(
-                text = article.createdAt,
+                text = article.createdAt.formatDate(context),
                 color = MaterialTheme.colorScheme.tertiary,
                 fontSize = 14.sp
             )
@@ -80,4 +85,10 @@ private fun ArticleItemPreview() {
             }
         )
     }
+}
+
+private fun String.formatDate(context: Context): String {
+    val date = DateFormatter.parseIsoStringToLocalDateTime(this)
+    val dateFormated = DateFormatter.formatRelativeDate(context, date)
+    return dateFormated
 }

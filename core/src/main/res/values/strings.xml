@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hours_ago">hace %d horas</string>
+    <string name="minutes_ago">hace %d minutos</string>
+    <string name="seconds_ago">hace unos segundos</string>
+    <string name="days_ago">%d días atrás</string>
+    <string name="yesterday">ayer</string>
+</resources>

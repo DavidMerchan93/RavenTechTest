@@ -16,11 +16,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.davidmerchan.core.network.NetworkConnectionState
 import com.davidmerchan.core.network.rememberConnectivityState
+import com.davidmerchan.core.utils.Toast
 import com.davidmerchan.designsystem.components.ConnectionMessage
 import com.davidmerchan.designsystem.components.ErrorScreen
 import com.davidmerchan.designsystem.components.LoadingScreen
@@ -38,6 +40,7 @@ fun HomeScreen(
     goToDetail: (title: String, url: String) -> Unit
 ) {
 
+    val context = LocalContext.current
     val uiState by viewmodel.uiState.collectAsStateWithLifecycle()
     val connectionState by rememberConnectivityState()
 
@@ -100,9 +103,15 @@ fun HomeScreen(
                         )
                     }
 
-                    uiState.isError -> {
-                        ErrorScreen()
+                    uiState.articles.isEmpty() -> {
+                        ErrorScreen(error = stringResource(R.string.empty_articles_error))
                     }
+
+                    uiState.errorDeleted != null -> {
+                        Toast(context, stringResource(R.string.article_deleted_error_message))
+                    }
+
+                    uiState.isError -> { ErrorScreen() }
                 }
             }
         }

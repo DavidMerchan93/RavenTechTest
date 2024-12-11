@@ -10,6 +10,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -51,6 +52,10 @@ fun HomeScreen(
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutine = rememberCoroutineScope()
 
+    LaunchedEffect(Unit) {
+        viewmodel.handleEvents(HomeUIEvents.LoadArticles)
+    }
+
     DeleteArticleSnackbar(
         uiState = uiState,
         snackBarHostState = snackBarHostState,
@@ -74,7 +79,7 @@ fun HomeScreen(
         PullToRefreshBox(
             modifier = Modifier.padding(contentPadding),
             isRefreshing = uiState.isRefreshing,
-            onRefresh = { viewmodel.handleEvents(HomeUIEvents.LoadArticles) }
+            onRefresh = { viewmodel.handleEvents(HomeUIEvents.ReLoadArticles) }
         ) {
             Column(
                 modifier = Modifier.padding(contentPadding),
@@ -111,7 +116,9 @@ fun HomeScreen(
                         Toast(context, stringResource(R.string.article_deleted_error_message))
                     }
 
-                    uiState.isError -> { ErrorScreen() }
+                    uiState.isError -> {
+                        ErrorScreen()
+                    }
                 }
             }
         }

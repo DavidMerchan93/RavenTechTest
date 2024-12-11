@@ -9,7 +9,6 @@ import com.davidmerchan.home.domain.useCase.RestoreArticleUseCase
 import com.davidmerchan.home.presentation.HomeUIEvents
 import com.davidmerchan.home.presentation.HomeUIState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -26,13 +25,10 @@ class ArticlesViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(HomeUIState(isLoading = true))
     val uiState = _uiState.asStateFlow()
 
-    init {
-        getArticles()
-    }
-
     fun handleEvents(event: HomeUIEvents) {
         when (event) {
-            HomeUIEvents.LoadArticles -> onPullToRefreshArticles()
+            HomeUIEvents.LoadArticles -> getArticles()
+            HomeUIEvents.ReLoadArticles -> onPullToRefreshArticles()
             is HomeUIEvents.DeleteArticle -> deleteArticle(event.id)
             is HomeUIEvents.RestoreArticle -> restoreArticle(event.id)
         }
@@ -46,7 +42,7 @@ class ArticlesViewModel @Inject constructor(
     }
 
     private fun getArticles() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val result = getArticlesUseCase()
             when {
                 result.isSuccess -> {
@@ -74,7 +70,11 @@ class ArticlesViewModel @Inject constructor(
                     }
                 }
 
-                result.isFailure -> HomeUIState(errorDeleted = id)
+                result.isFailure -> {
+                    _uiState.update {
+                        it.copy(errorDeleted = id)
+                    }
+                }
             }
         }
     }

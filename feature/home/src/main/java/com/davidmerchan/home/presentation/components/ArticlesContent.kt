@@ -8,13 +8,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.davidmerchan.designsystem.components.SwipeToDeleteBox
 import com.davidmerchan.home.domain.model.ArticleId
-import com.davidmerchan.home.domain.model.ArticleModel
+import com.davidmerchan.home.presentation.model.Article
 import kotlinx.collections.immutable.ImmutableList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ArticlesContent(
-    articles: ImmutableList<ArticleModel>,
+    articles: ImmutableList<Article>,
     onDeleteArticle: (id: ArticleId) -> Unit,
     isRefreshing: Boolean,
     onGoToDetail: (title: String, url: String) -> Unit,
@@ -40,7 +40,7 @@ fun ArticlesContent(
                     ArticleItem(
                         article = article,
                         onShowDetail = {
-                            onGoToDetail(article.title, article.storyUrl)
+                            onGoToDetail(article.title, article.url)
                         },
                     )
                 }

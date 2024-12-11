@@ -79,7 +79,6 @@ class ArticlesViewModel @Inject constructor(
         }
     }
 
-
     private fun restoreArticle(id: ArticleId) {
         viewModelScope.launch {
             val result = restoreArticleUseCase(id)

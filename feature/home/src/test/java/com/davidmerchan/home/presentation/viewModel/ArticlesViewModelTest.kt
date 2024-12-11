@@ -1,11 +1,11 @@
 package com.davidmerchan.home.presentation.viewModel
 
-import com.davidmerchan.home.domain.model.ArticleModel
 import com.davidmerchan.home.domain.useCase.DeleteArticleUseCase
 import com.davidmerchan.home.domain.useCase.GetArticlesUseCase
 import com.davidmerchan.home.domain.useCase.RestoreArticleUseCase
 import com.davidmerchan.home.presentation.HomeUIEvents
 import com.davidmerchan.home.presentation.HomeUIState
+import com.davidmerchan.home.presentation.model.Article
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -55,7 +55,7 @@ class ArticlesViewModelTest {
     @Test
     fun `fetchArticles should update UI state with articles on success`() = runTest {
         // Given
-        val article: ArticleModel = mockk()
+        val article: Article = mockk()
         coEvery { getArticlesUseCase.invoke() } returns Result.success(listOf(article))
 
         // When
@@ -132,7 +132,7 @@ class ArticlesViewModelTest {
     fun `restoreArticle should update UI state on success`() = runTest {
         // Given
         val articleId = 123L
-        val restoredArticle: ArticleModel = mockk(relaxed = true)
+        val restoredArticle: Article = mockk(relaxed = true)
 
         every { restoredArticle.createdAt } returns "12-12-2024"
         coEvery { restoreArticleUseCase.invoke(articleId) } returns Result.success(restoredArticle)

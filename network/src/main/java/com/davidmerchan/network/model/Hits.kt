@@ -7,8 +7,12 @@ data class Hits(
     val storyId: Long,
     @SerializedName("story_title")
     val storyTitle: String?,
+    @SerializedName("title")
+    val title: String?,
     @SerializedName("story_url")
     val storyUrl: String?,
+    @SerializedName("url")
+    val url: String?,
     @SerializedName("author")
     val author: String,
     @SerializedName("comment_text")

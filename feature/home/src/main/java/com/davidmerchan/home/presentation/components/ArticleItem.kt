@@ -1,6 +1,5 @@
 package com.davidmerchan.home.presentation.components
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,13 +18,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.davidmerchan.core.date.DateFormatter
 import com.davidmerchan.designsystem.theme.RavenTechTestTheme
-import com.davidmerchan.home.domain.model.ArticleModel
+import com.davidmerchan.home.presentation.model.Article
 
 @Composable
 fun ArticleItem(
-    article: ArticleModel,
+    article: Article,
     modifier: Modifier = Modifier,
     onShowDetail: () -> Unit,
 ) {
@@ -57,7 +55,7 @@ fun ArticleItem(
                 fontSize = 16.sp
             )
             Text(
-                text = article.createdAt.formatDate(context),
+                text = article.formatCreatedAt(context),
                 color = MaterialTheme.colorScheme.tertiary,
                 fontSize = 14.sp
             )
@@ -72,23 +70,16 @@ fun ArticleItem(
 private fun ArticleItemPreview() {
     RavenTechTestTheme {
         ArticleItem(
-            article = ArticleModel(
+            article = Article(
                 id = 1,
                 title = "Sample Article",
-                content = "Lorem ipsum",
                 author = "John Doe",
                 createdAt = "2022-01-01",
-                storyUrl = "https://example.com/sample-article"
+                url = "https://example.com/sample-article"
             ),
             onShowDetail = {
 
             }
         )
     }
-}
-
-private fun String.formatDate(context: Context): String {
-    val date = DateFormatter.parseIsoStringToLocalDateTime(this)
-    val dateFormated = DateFormatter.formatRelativeDate(context, date)
-    return dateFormated
 }

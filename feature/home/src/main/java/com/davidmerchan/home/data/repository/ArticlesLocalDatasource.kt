@@ -4,9 +4,9 @@ import com.davidmerchan.core.AppLogger
 import com.davidmerchan.database.dao.ArticleDao
 import com.davidmerchan.di.IODispatcher
 import com.davidmerchan.home.data.mapper.mapToDomain
-import com.davidmerchan.home.data.mapper.toEntity
 import com.davidmerchan.home.domain.model.ArticleId
 import com.davidmerchan.home.domain.model.ArticleModel
+import com.davidmerchan.home.domain.model.mapToEntity
 import com.davidmerchan.home.domain.repository.ArticlesLocalRepository
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class ArticlesLocalDatasource @Inject constructor(
     override suspend fun saveArticles(articleModel: List<ArticleModel>): Result<Unit> {
         return withContext(ioDispatcher) {
             try {
-                val data = articleModel.map { it.toEntity() }.toTypedArray()
+                val data = articleModel.map { it.mapToEntity() }.toTypedArray()
                 articlesDao.insertArticles(*data)
                 Result.success(Unit)
             } catch (e: Exception) {

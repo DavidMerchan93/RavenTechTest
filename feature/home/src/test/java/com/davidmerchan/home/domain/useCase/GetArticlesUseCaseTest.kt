@@ -2,6 +2,7 @@ package com.davidmerchan.home.domain.useCase
 
 import com.davidmerchan.home.domain.model.ArticleModel
 import com.davidmerchan.home.domain.repository.ArticlesRemoteRepository
+import com.davidmerchan.home.presentation.model.Article
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -43,7 +44,7 @@ class GetArticlesUseCaseTest {
     fun `invoke should return local articles after saving remote articles on success`() = runBlocking {
         // Given
         val remoteArticles = listOf(mockk<ArticleModel>())
-        val localArticles = listOf(mockk<ArticleModel>())
+        val localArticles = listOf(mockk<Article>())
 
         coEvery { articlesRemote.getArticles() } returns Result.success(remoteArticles)
         coEvery { saveArticlesUseCase.invoke(remoteArticles) } returns Result.success(Unit)
@@ -64,7 +65,7 @@ class GetArticlesUseCaseTest {
     @Test
     fun `invoke should return local articles even if remote call fails`() = runBlocking {
         // Given
-        val localArticles = listOf(mockk<ArticleModel>())
+        val localArticles = listOf(mockk<Article>())
         coEvery { articlesRemote.getArticles() } returns Result.failure(Exception("Network error"))
         coEvery { getLocalArticlesUseCase.invoke() } returns Result.success(localArticles)
 

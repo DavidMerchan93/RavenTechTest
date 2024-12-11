@@ -2,6 +2,7 @@ package com.davidmerchan.home.domain.useCase
 
 import com.davidmerchan.home.domain.model.ArticleModel
 import com.davidmerchan.home.domain.repository.ArticlesLocalRepository
+import com.davidmerchan.home.presentation.model.Article
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
@@ -63,23 +64,21 @@ class GetLocalArticlesUseCaseTest {
 
         val expectedResult = Result.success(
             listOf(
-                ArticleModel(
+                Article(
                     id = 1L,
                     createdAt = "createdAt",
                     isDeleted = false,
                     title = "Title 1",
-                    content = "Content 1",
                     author = "Author 1",
-                    storyUrl = "Story URL 1"
+                    url = "Story URL 1"
                 ),
-                ArticleModel(
+                Article(
                     id = 2L,
                     createdAt = "createdAt",
                     isDeleted = false,
                     title = "Title 2",
-                    content = "Content 2",
                     author = "Author 2",
-                    storyUrl = "Story URL 2"
+                    url = "Story URL 2"
                 ),
             )
         )
@@ -99,6 +98,8 @@ class GetLocalArticlesUseCaseTest {
     fun `invoke should return failure when repository fails`() = runBlocking {
         // Given
         val exception = Exception("Database error")
+        val exceptionExpected =
+
         coEvery { articlesLocalRepository.getAllArticles() } returns Result.failure(exception)
 
         // When
@@ -106,7 +107,7 @@ class GetLocalArticlesUseCaseTest {
 
         // Then
         coVerify { articlesLocalRepository.getAllArticles() }
-        assertEquals(Result.failure<List<ArticleModel>>(exception), result)
+        assertEquals(Result.failure<List<Article>>(exception), result)
     }
 
 }

@@ -2,9 +2,11 @@ package com.davidmerchan.home.domain.useCase
 
 import com.davidmerchan.home.domain.model.ArticleModel
 import com.davidmerchan.home.domain.repository.ArticlesLocalRepository
+import com.davidmerchan.home.presentation.model.Article
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.confirmVerified
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -32,7 +34,23 @@ class RestoreArticleUseCaseTest {
     fun `invoke should restore article successfully`() = runBlocking {
         // Given
         val articleId = 123L
-        val restoredArticle: ArticleModel = mockk()
+        val restoredArticle: ArticleModel = mockk {
+            every { id } returns articleId
+            every { title } returns "title"
+            every { author } returns "author"
+            every { createdAt } returns "createdAt"
+            every { isDeleted } returns false
+            every { storyUrl } returns "storyUrl"
+        }
+
+        val expectedArticle = Article(
+            id = articleId,
+            title = "title",
+            author = "author",
+            createdAt = "createdAt",
+            isDeleted = false,
+            url = "storyUrl"
+        )
 
         coEvery { articlesLocalRepository.restoreArticle(articleId) } returns Result.success(
             restoredArticle
@@ -43,7 +61,7 @@ class RestoreArticleUseCaseTest {
 
         // Then
         coVerify { articlesLocalRepository.restoreArticle(articleId) }
-        assertEquals(Result.success(restoredArticle), result)
+        assertEquals(Result.success(expectedArticle), result)
     }
 
     @Test
@@ -51,6 +69,8 @@ class RestoreArticleUseCaseTest {
         // Given
         val articleId = 123L
         val exception = Exception("Database error")
+        val exceptionExpected = Result.failure<Article>(exception)
+
         coEvery { articlesLocalRepository.restoreArticle(articleId) } returns Result.failure(
             exception
         )
@@ -60,6 +80,6 @@ class RestoreArticleUseCaseTest {
 
         // Then
         coVerify { articlesLocalRepository.restoreArticle(articleId) }
-        assertEquals(Result.failure<ArticleModel>(exception), result)
+        assertEquals(exceptionExpected, result)
     }
 }

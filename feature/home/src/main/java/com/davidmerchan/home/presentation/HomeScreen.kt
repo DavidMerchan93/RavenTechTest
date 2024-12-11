@@ -8,7 +8,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -76,49 +75,47 @@ fun HomeScreen(
         }
     ) { contentPadding ->
 
-        PullToRefreshBox(
+        Column(
             modifier = Modifier.padding(contentPadding),
-            isRefreshing = uiState.isRefreshing,
-            onRefresh = { viewmodel.handleEvents(HomeUIEvents.ReLoadArticles) }
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Column(
-                modifier = Modifier.padding(contentPadding),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                if (isConnected.not()) {
-                    ConnectionMessage()
+            if (isConnected.not()) {
+                ConnectionMessage()
+            }
+            when {
+                uiState.isLoading -> {
+                    LoadingScreen()
                 }
-                when {
-                    uiState.isLoading -> {
-                        LoadingScreen()
-                    }
 
-                    uiState.articles.isNotEmpty() -> {
-                        ArticlesContent(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            articles = uiState.articles.toImmutableList(),
-                            onDeleteArticle = { id ->
-                                viewmodel.handleEvents(HomeUIEvents.DeleteArticle(id))
-                            },
-                            onGoToDetail = { title, url ->
-                                goToDetail(title, url)
-                            }
-                        )
-                    }
+                uiState.articles.isNotEmpty() -> {
+                    ArticlesContent(
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        articles = uiState.articles.toImmutableList(),
+                        onDeleteArticle = { id ->
+                            viewmodel.handleEvents(HomeUIEvents.DeleteArticle(id))
+                        },
+                        onGoToDetail = { title, url ->
+                            goToDetail(title, url)
+                        },
+                        isRefreshing = uiState.isRefreshing,
+                        onRefresh = {
+                            viewmodel.handleEvents(HomeUIEvents.ReLoadArticles)
+                        }
+                    )
+                }
 
-                    uiState.articles.isEmpty() -> {
-                        ErrorScreen(error = stringResource(R.string.empty_articles_error))
-                    }
+                uiState.articles.isEmpty() -> {
+                    ErrorScreen(error = stringResource(R.string.empty_articles_error))
+                }
 
-                    uiState.errorDeleted != null -> {
-                        Toast(context, stringResource(R.string.article_deleted_error_message))
-                    }
+                uiState.errorDeleted != null -> {
+                    Toast(context, stringResource(R.string.article_deleted_error_message))
+                }
 
-                    uiState.isError -> {
-                        ErrorScreen()
-                    }
+                uiState.isError -> {
+                    ErrorScreen()
                 }
             }
         }

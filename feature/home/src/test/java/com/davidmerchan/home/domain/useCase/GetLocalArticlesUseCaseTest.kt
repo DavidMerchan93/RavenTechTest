@@ -98,7 +98,6 @@ class GetLocalArticlesUseCaseTest {
     fun `invoke should return failure when repository fails`() = runBlocking {
         // Given
         val exception = Exception("Database error")
-        val exceptionExpected =
 
         coEvery { articlesLocalRepository.getAllArticles() } returns Result.failure(exception)
 

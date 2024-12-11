@@ -1,54 +1,53 @@
 
 # RavenTechTest
 
-**RavenTechTest** es una aplicación Android diseñada para demostrar la implementación de arquitecturas modernas, herramientas avanzadas y mejores prácticas en desarrollo móvil. Este proyecto utiliza **Kotlin**, **Jetpack Compose** y sigue los principios de **Clean Architecture** para garantizar un código escalable, mantenible y extensible.
+Este proyecto fue desarrollado por David Merchan para la empresa Raven. Es una aplicación Android que muestra un listado de articulos de manera online y offline, utiliza Kotlin como lenguaje principal y Jetpack Compose con Material 3 para el diseño de la interfaz de usuario. Se siguen los principios de diseño SOLID, KISS y DRY para garantizar un desarrollo eficiente, fácil mantenimiento y entendimiento del código.
 
 ---
 
-## **Arquitecturas Usadas**
-### **Clean Architecture**
-El proyecto implementa la arquitectura **Clean Architecture**, separando responsabilidades en capas bien definidas:
-1. **Capa de Presentación (Presentation):**
-   - Maneja la interfaz de usuario (UI) utilizando **Jetpack Compose**.
-   - Implementa el patrón **MVVM (Model-View-ViewModel)** para gestionar la lógica de presentación y estados.
-2. **Capa de Dominio (Domain):**
-   - Contiene la lógica de negocio y los casos de uso.
-   - Define interfaces para repositorios que son implementadas por la capa de datos.
-3. **Capa de Datos (Data):**
-   - Implementa las fuentes de datos locales y remotas.
-   - Define repositorios que interactúan con la API y la base de datos.
+## Características del Proyecto
+
+1. **Pruebas**:
+   - Se implementan pruebas unitarias utilizando la biblioteca **MockK**.
+
+2. **Arquitectura**:
+   - El proyecto sigue el modelo de **Clean Architecture**, dividiendo el código en módulos por capas:
+      - **Feature**: En este modulo se encuentran las 2 principales funcionalidades de la aplicación.
+        - **Home**: Este submodulo se encarga de almacenar y gestionar toda la sección principal de la aplicación que muestra el listado de articulos, el modulo se encuentra dividido en difetentes capas como Data, Domain y Presentation.
+        - **ArticleDetail**: Este submodulo se encarga de almacenar y gestionar la logica necesaria para mostrar el detalle de un articulo, solo contiene la capa de presentación ya que data y domain no son necesarias.
+      - **DesignSystem**: En este modulo se encuentra todo lo relacionado con el tema de la aplicación tanto para dark como light, fuentes y componentes reutilizable.
+      - 
+      - **Database**: Responsable del manejo de la información local.
+      - **Network**: Encargado de las llamadas a la API.
+      - **Core**: Contiene componentes transversales utilizados en toda la aplicación.
+      - **DI**: Centraliza la configuración para la inyección de dependencias, de los elementos generales.
+   - Se implementan los patrones de diseño **MVVM** (Model-View-ViewModel) para el flujo de datos y **MVI** (Model-View-Intent) para la gestión de estados y eventos en la UI.
+
+3. **Inyección de Dependencias**:
+   - Se utiliza **Hilt** como herramienta para la inyección de dependencias, debido a su robustez y capacidad de proporcionar feedback de errores en tiempo de compilación.
+
+4. **Manejo de Datos**:
+   - Para las consultas a la API, se implementa **Retrofit**.
+   - Los datos obtenidos de la API se almacenan en una base de datos local utilizando **Room**, permitiendo que los datos sean accesibles incluso en ausencia de conexión a internet.
 
 ---
+## Detalles Técnicos
 
-## **Herramientas Usadas**
-1. **Jetpack Compose:** Para la creación de la interfaz de usuario.
-2. **Hilt:** Para la inyección de dependencias.
-3. **Retrofit:** Para la comunicación con APIs RESTful.
-4. **Room:** Para el manejo de la base de datos local.
-5. **MockK:** Para pruebas unitarias y de integración.
+### Principios y Buenas Prácticas
+- **SOLID**: Para garantizar un diseño modular, escalable y mantenible.
+- **KISS**: Manteniendo el código simple y fácil de entender.
+- **DRY**: Evitando la duplicación de lógica y asegurando la reutilización del código.
+- **Tell-Don't-Ask**: Asignando ciertas responsabilidades directamente a los objetos.
 
----
-
-## **Módulos y Responsabilidades**
-El proyecto está modularizado para mantener una separación clara de responsabilidades:
-
-### **1. Módulo `presentation`:**
-   - Contiene las pantallas de la aplicación.
-   - Define los ViewModels para gestionar la lógica de presentación y estados de la UI.
-
-### **2. Módulo `domain`:**
-   - Contiene los modelos de dominio y los casos de uso.
-   - Define las interfaces de repositorios para una abstracción limpia.
-
-### **3. Módulo `data`:**
-   - Implementa los repositorios y las fuentes de datos.
-   - Maneja la interacción con **Room** para la base de datos local y **Retrofit** para las llamadas a la API.
-
-### **4. Módulo `network`:**
-   - Centraliza las configuraciones de red, como interceptores y creación de clientes de Retrofit.
-
-### **5. Módulo `core`:**
-   - Proporciona utilidades comunes y clases compartidas entre los módulos, como validadores o manejadores de excepciones.
+### Herramientas y Librerías
+- **Kotlin**: Lenguaje principal.
+- **Jetpack Compose**: Para construir una UI moderna y reactiva.
+- **Material 3**: Para aplicar el diseño visual.
+- **MockK**: Para pruebas unitarias.
+- **Retrofit**: Para llamadas a la API.
+- **Room**: Para la gestión de datos locales.
+- **Detekt**: Para el analisis de codigo estatico.
+- **Github Actions**: Se implementa un sencillo CI con Github actions para corroborar la estabilidad del codigo cada que se sube un cambio al repositorio.
 
 ---
 
@@ -59,6 +58,18 @@ La interfaz de usuario se desarrolló utilizando **Jetpack Compose** y siguiendo
 - **Interacciones:** Incluyen eliminación, restauración y manejo de estados como error o carga.
 
 ---
+
+## Imágenes
+
+<p align="center">
+  <img src="assets/image1.png" alt="Imagen 1" width="150"/>
+  <img src="assets/image2.png" alt="Imagen 1" width="150"/>
+  <img src="assets/image3.png" alt="Imagen 1" width="150"/>
+  <img src="assets/image4.png" alt="Imagen 1" width="150"/>
+  <img src="assets/image5.png" alt="Imagen 1" width="150"/>
+  <img src="assets/image6.png" alt="Imagen 1" width="150"/>
+  <img src="assets/video.gif" alt="Imagen 1" width="150"/>
+</p>
 
 ## **Cómo Instalar la Aplicación**
 1. **Clona el Repositorio:**
@@ -90,17 +101,6 @@ La interfaz de usuario se desarrolló utilizando **Jetpack Compose** y siguiendo
    ```bash
    ./gradlew test
    ```
-
-2. **Ejecutar Pruebas de UI:**
-   ```bash
-   ./gradlew connectedAndroidTest
-   ```
-
----
-
-Este proyecto es un ejemplo robusto de cómo implementar una arquitectura moderna y herramientas avanzadas en Android. 🚀
-
---- 
 
 ### **Licencia**
 Este proyecto está bajo la licencia MIT.

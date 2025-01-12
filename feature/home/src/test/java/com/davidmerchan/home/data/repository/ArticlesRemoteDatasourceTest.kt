@@ -14,12 +14,10 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -39,13 +37,12 @@ class ArticlesRemoteDatasourceTest {
     @Before
     fun setUp() {
         articlesRemoteDatasource = ArticlesRemoteDatasource(logger, api, testDispatcher)
-        Dispatchers.setMain(testDispatcher)
     }
 
     @After
     fun tearDown() {
         confirmVerified(logger, api)
-        Dispatchers.resetMain()
+        testDispatcher.cancel()
     }
 
 
@@ -113,22 +110,23 @@ class ArticlesRemoteDatasourceTest {
     }
 
     @Test
-    fun `getArticles() should throw an exception on failure when have a mapping error`() = runBlocking {
-        // Given
-        val apiResponse: ArticlesResponse = mockk()
+    fun `getArticles() should throw an exception on failure when have a mapping error`() =
+        runBlocking {
+            // Given
+            val apiResponse: ArticlesResponse = mockk()
 
-        coEvery { api.getArticles() } returns apiResponse
-        every { logger.log(any<Exception>()) } just runs
+            coEvery { api.getArticles() } returns apiResponse
+            every { logger.log(any<Exception>()) } just runs
 
-        // When
-        val result = articlesRemoteDatasource.getArticles()
+            // When
+            val result = articlesRemoteDatasource.getArticles()
 
-        // Then
-        verify {
-            logger.log(any<Exception>())
+            // Then
+            verify {
+                logger.log(any<Exception>())
+            }
+            coVerify { api.getArticles() }
+            assertTrue(result.isFailure)
         }
-        coVerify { api.getArticles() }
-        assertTrue(result.isFailure)
-    }
 
 }

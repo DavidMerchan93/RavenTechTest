@@ -11,24 +11,21 @@ import io.mockk.coVerify
 import io.mockk.confirmVerified
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ArticlesViewModelTest {
+
+    @get:Rule
+    val mainDispatcherRule: MainDispatcherTest = MainDispatcherTest()
 
     private val getArticlesUseCase: GetArticlesUseCase = mockk()
     private val deleteArticleUseCase: DeleteArticleUseCase = mockk()
     private val restoreArticleUseCase: RestoreArticleUseCase = mockk()
-    private val testDispatcher = UnconfinedTestDispatcher()
 
     private lateinit var articlesViewModel: ArticlesViewModel
 
@@ -39,7 +36,7 @@ class ArticlesViewModelTest {
             deleteArticleUseCase,
             restoreArticleUseCase
         )
-        Dispatchers.setMain(testDispatcher)
+
     }
 
     @After
@@ -49,7 +46,6 @@ class ArticlesViewModelTest {
             deleteArticleUseCase,
             restoreArticleUseCase
         )
-        Dispatchers.resetMain()
     }
 
     @Test

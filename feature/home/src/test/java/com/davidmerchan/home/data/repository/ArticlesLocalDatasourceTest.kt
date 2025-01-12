@@ -13,12 +13,10 @@ import io.mockk.just
 import io.mockk.mockk
 import io.mockk.runs
 import io.mockk.verify
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -37,17 +35,15 @@ class ArticlesLocalDatasourceTest {
     @Before
     fun setUp() {
         articlesLocalDatasource = ArticlesLocalDatasource(logger, articlesDao, testDispatcher)
-        Dispatchers.setMain(testDispatcher)
     }
 
     @After
     fun tearDown() {
         confirmVerified(logger, articlesDao)
-        Dispatchers.resetMain()
     }
 
     @Test
-    fun `getAllArticles() should return a list of articles on success`() = runBlocking {
+    fun `getAllArticles() should return a list of articles on success`() = runTest {
         // Given
         val articleEntity: ArticleEntity = mockk {
             every { id } returns 1234L

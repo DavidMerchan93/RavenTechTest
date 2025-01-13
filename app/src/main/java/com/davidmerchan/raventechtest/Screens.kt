@@ -8,4 +8,7 @@ sealed interface Screens {
 
     @Serializable
     data class Detail(val title: String, val url: String) : Screens
+
+    @Serializable
+    data class DeepLinkDetail(val title: String) : Screens
 }
